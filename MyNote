@@ -1,0 +1,53 @@
+new SqlSessionFactoryBuilder() 创建SqlSessionFactoryBuilder
+SqlSessionFactoryBuilder.build() 构建sqlSessionFactory
+    new XMLConfigBuilder() 创建XMLConfigBuilder
+        new XPathParser() 创建XPathParser
+            this.xpath = XPathFactory.newInstance().newXPath() 初始化xpath
+            new XMLMapperEntityResolver() 初始化EntityResolver，不用联网去获取DTD
+            createDocument() 创建document
+                DocumentBuilderFactory.newInstance() 初始化DocumentBuilderFactory
+                factory.newDocumentBuilder() 初始化DocumentBuilder
+                builder.parse(inputSource) 解析输入xml配置，解析为Document
+        super(new Configuration()) 初始化Configuration
+            TODO
+
+    XMLConfigBuilder.parse() 解析配置
+        parseConfiguration(parser.evalNode("/configuration")) 解析根节点
+            propertiesElement(root.evalNode("properties")) 解析properties
+                context.getChildrenAsProperties() 把子节点解析为Properties
+                defaults.putAll(Resources.getResourceAsProperties(resource)) 把引用资源resource加到Properties
+                defaults.putAll(Resources.getUrlAsProperties(url)) 把引用资源url加到Properties
+                defaults.putAll(configuration.getVariables()) 当做参数传入的加入
+                configuration.setVariables(defaults) 重新给到configuration的variables属性中
+            typeAliasesElement(root.evalNode("typeAliases")) 解析别名
+                configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage) 去包下找类注册别名
+                    [有@Alias注解则用，没有则取类的simpleName]
+                typeAliasRegistry.registerAlias(alias, clazz) 注册别名和类
+
+            pluginElement(root.evalNode("plugins")) 插件
+            objectFactoryElement(root.evalNode("objectFactory")) 对象工厂
+            objectWrapperFactoryElement(root.evalNode("objectWrapperFactory")) 对象包装工厂
+            settingsElement(root.evalNode("settings")) 设置
+            environmentsElement(root.evalNode("environments")) 环境
+            databaseIdProviderElement(root.evalNode("databaseIdProvider")) databaseIdProvider
+            typeHandlerElement(root.evalNode("typeHandlers")) 类型处理器
+            mapperElement(root.evalNode("mappers")) 映射器
+
+
+    DefaultSqlSessionFactory(config) 创建SqlSessionFactory
+
+SqlSessionFactory.openSession() 开启sqlSession
+
+sqlSession.selectList() 调用JDBC查询数据库
+
+sqlSession.close() 关闭sqlSession
+
+
+
+
+
+
+
+
+
+ErrorContext
