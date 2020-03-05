@@ -25,9 +25,38 @@ SqlSessionFactoryBuilder.build() 构建sqlSessionFactory
                 typeAliasRegistry.registerAlias(alias, clazz) 注册别名和类
 
             pluginElement(root.evalNode("plugins")) 插件
+                configuration.addInterceptor(interceptorInstance) 添加插件
+                    interceptorChain.addInterceptor(interceptor) 添加到插件的集合
+
             objectFactoryElement(root.evalNode("objectFactory")) 对象工厂
+                configuration.setObjectFactory(factory) 添加到对象池
+
             objectWrapperFactoryElement(root.evalNode("objectWrapperFactory")) 对象包装工厂
+                configuration.setObjectWrapperFactory(factory) 添加到对象包装工厂
+
             settingsElement(root.evalNode("settings")) 设置
+                configuration.setAutoMappingBehavior() 自动映射结果，resultMap去重，默认为PARTIAL
+                configuration.setCacheEnabled() 设置缓存，默认为true
+                configuration.setProxyFactory() proxyFactory (CGLIB | JAVASSIST)
+                configuration.setLazyLoadingEnabled() 延迟加载，默认false
+                configuration.setAggressiveLazyLoading() 延迟加载时，每种属性是否还要按需加载，默认true
+                configuration.setMultipleResultSetsEnabled() 允不允许多种结果集从一个单独的语句中返回，默认true
+                configuration.setUseColumnLabel() 使用列标签代替列名，默认true
+                configuration.setUseGeneratedKeys(
+                configuration.setDefaultExecutorType(
+                configuration.setDefaultStatementTimeout(
+                configuration.setMapUnderscoreToCamelCase(
+                configuration.setSafeRowBoundsEnabled(
+                configuration.setLocalCacheScope(
+                configuration.setJdbcTypeForNull(
+                configuration.setLazyLoadTriggerMethods(
+                configuration.setSafeResultHandlerEnabled(
+                configuration.setDefaultScriptingLanguage(
+                configuration.setCallSettersOnNulls() 当结果集中含有Null值时是否执行映射对象的setter或者Map对象的put方法，默认false
+                configuration.setLogPrefix() logger名字的前缀
+                configuration.setLogImpl() 显式定义用什么log框架，默认自动发现jar包
+                configuration.setConfigurationFactory() 配置工厂
+
             environmentsElement(root.evalNode("environments")) 环境
             databaseIdProviderElement(root.evalNode("databaseIdProvider")) databaseIdProvider
             typeHandlerElement(root.evalNode("typeHandlers")) 类型处理器
@@ -51,3 +80,5 @@ sqlSession.close() 关闭sqlSession
 
 
 ErrorContext
+Enum.valueOf
+Boolean.valueOf
