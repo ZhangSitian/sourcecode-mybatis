@@ -42,26 +42,33 @@ SqlSessionFactoryBuilder.build() 构建sqlSessionFactory
                 configuration.setAggressiveLazyLoading() 延迟加载时，每种属性是否还要按需加载，默认true
                 configuration.setMultipleResultSetsEnabled() 允不允许多种结果集从一个单独的语句中返回，默认true
                 configuration.setUseColumnLabel() 使用列标签代替列名，默认true
-                configuration.setUseGeneratedKeys(
-                configuration.setDefaultExecutorType(
-                configuration.setDefaultStatementTimeout(
-                configuration.setMapUnderscoreToCamelCase(
-                configuration.setSafeRowBoundsEnabled(
-                configuration.setLocalCacheScope(
-                configuration.setJdbcTypeForNull(
-                configuration.setLazyLoadTriggerMethods(
-                configuration.setSafeResultHandlerEnabled(
-                configuration.setDefaultScriptingLanguage(
+                configuration.setUseGeneratedKeys() 允许 JDBC 支持生成的键，默认false
+                configuration.setDefaultExecutorType() 配置默认的执行器，默认SIMPLE
+                configuration.setDefaultStatementTimeout() 超时时间
+                configuration.setMapUnderscoreToCamelCase() 是否将DB字段自动映射到驼峰式Java属性，默认false
+                configuration.setSafeRowBoundsEnabled() 嵌套语句上使用RowBounds，默认false
+                configuration.setLocalCacheScope() 默认用session级别的缓存
+                configuration.setJdbcTypeForNull() 为null值设置jdbctype
+                configuration.setLazyLoadTriggerMethods() Object的哪些方法将触发延迟加载
+                configuration.setSafeResultHandlerEnabled() 使用安全的ResultHandler，默认true
+                configuration.setDefaultScriptingLanguage() 动态SQL生成语言所使用的脚本语言
                 configuration.setCallSettersOnNulls() 当结果集中含有Null值时是否执行映射对象的setter或者Map对象的put方法，默认false
                 configuration.setLogPrefix() logger名字的前缀
                 configuration.setLogImpl() 显式定义用什么log框架，默认自动发现jar包
                 configuration.setConfigurationFactory() 配置工厂
 
             environmentsElement(root.evalNode("environments")) 环境
+                environment = context.getStringAttribute("default") 取到默认的environmentId
+                configuration.setEnvironment(environmentBuilder.build()) 设置environment
             databaseIdProviderElement(root.evalNode("databaseIdProvider")) databaseIdProvider
+                可以根据不同数据库执行不同的SQL，sql要加databaseId属性(不实用)
+                configuration.setDatabaseId(databaseId) 设置数据库类型
             typeHandlerElement(root.evalNode("typeHandlers")) 类型处理器
+                typeHandlerRegistry.register(typeHandlerPackage) 调用TypeHandlerRegistry.register，去包下找所有类
+                typeHandlerRegistry.register(javaTypeClass, jdbcType, typeHandlerClass) 调用TypeHandlerRegistry.register
             mapperElement(root.evalNode("mappers")) 映射器
-
+                new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments())
+                mapperParser.parse()
 
     DefaultSqlSessionFactory(config) 创建SqlSessionFactory
 
