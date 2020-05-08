@@ -50,11 +50,20 @@ public class MyTest {
     }
 
     @Test
-    public void addProductDaoTest() throws IOException {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(RESOURCE_SPRING);
-        ProductDao productDao = (ProductDao) applicationContext.getBean("productDao");
+
+    public void testFindUserById() throws IOException  {
+        // 得到配置文件流
+        InputStream inputStream =  Resources.getResourceAsStream(RESOURCE_MYBATIS);
+        //创建会话工厂，传入mybatis配置文件的信息
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        // 通过SqlSession，获取mapper接口的动态代理对象
+        ProductDao productDao = sqlSession.getMapper(ProductDao.class);
+        // 调用mapper对象的方法
         Product product = productDao.findProductById(1);
         LOGGER.info(JSONObject.toJSONString(product));
+        // 关闭SqlSession
+        sqlSession.close();
     }
 
 
