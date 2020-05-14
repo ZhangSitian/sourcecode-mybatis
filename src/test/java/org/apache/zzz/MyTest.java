@@ -22,15 +22,15 @@ public class MyTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MyTest.class);
 
-    private static final  String RESOURCE_MYBATIS = "mybatis-hello.xml";
-    private static final  String RESOURCE_SPRING = "spring-mybatis.xml";
+    private static final String RESOURCE_MYBATIS = "mybatis-hello.xml";
+    private static final String RESOURCE_SPRING = "spring-mybatis.xml";
 
 
     // 根据用户名称模糊查询用户列表
     @Test
     public void findProductByNameTest() throws IOException {
         // 得到配置文件流
-        InputStream inputStream =  Resources.getResourceAsStream(RESOURCE_MYBATIS);
+        InputStream inputStream = Resources.getResourceAsStream(RESOURCE_MYBATIS);
         //创建会话工厂，传入mybatis配置文件的信息
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         // 通过工厂得到SqlSession
@@ -40,6 +40,7 @@ public class MyTest {
         sqlSession.close();
         LOGGER.info(JSONObject.toJSONString(list));
     }
+
 
     @Test
     public void findProductByIdDaoTest() throws IOException {
@@ -51,9 +52,9 @@ public class MyTest {
 
     @Test
 
-    public void testFindUserById() throws IOException  {
+    public void testFindUserById() throws IOException {
         // 得到配置文件流
-        InputStream inputStream =  Resources.getResourceAsStream(RESOURCE_MYBATIS);
+        InputStream inputStream = Resources.getResourceAsStream(RESOURCE_MYBATIS);
         //创建会话工厂，传入mybatis配置文件的信息
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
@@ -66,9 +67,28 @@ public class MyTest {
         sqlSession.close();
     }
 
+    @Test
+    public void testErrorTest() {
+        try {
+            // 得到配置文件流
+            InputStream inputStream = Resources.getResourceAsStream(RESOURCE_MYBATIS);
+            //创建会话工厂，传入mybatis配置文件的信息
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+            // 通过SqlSession，获取mapper接口的动态代理对象
+            ProductDao productDao = sqlSession.getMapper(ProductDao.class);
+            // 调用mapper对象的方法
+            Product product = productDao.findProductByName("name0");
+            LOGGER.info(JSONObject.toJSONString(product));
+            // 关闭SqlSession
+            sqlSession.close();
+        } catch (Exception e) {
+        }
+    }
+
 
     @Test
-    public void test(){
+    public void test() {
         System.out.println(AutoMappingBehavior.NONE);
     }
 
