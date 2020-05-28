@@ -6,6 +6,10 @@
          注意：使用mapper代理方法开发，namespace有特殊重要的作用
          -->
 <mapper namespace="org.apache.zzz.dao.ProductDao">
+
+    <select id="selectByType"  resultType="org.apache.zzz.Product">
+        SELECT * FROM  product  WHERE product_type=#{type} ORDER BY ${field}
+    </select>
     <!-- 在映射文件中配置很多sql语句 -->
     <!--需求:通过id查询用户表的记录 -->
     <!-- 通过select执行数据库查询
@@ -27,8 +31,8 @@
 	使用${}拼接sql，引起 sql注入
 	${value}：接收输入参数的内容，如果传入类型是简单类型，${}中只能使用value
 	 -->
-    <select id="findProductByName" parameterType="java.lang.String" resultType="org.apache.zzz.Product">
-        SELECT * FROM product WHERE product_name LIKE '${value}%'
+    <select id="findProductByName"  resultType="org.apache.zzz.Product">
+        SELECT * FROM product WHERE left_num=#{leftNum} and product_name LIKE #{name}
     </select>
 
 
